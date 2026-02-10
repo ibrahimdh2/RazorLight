@@ -67,45 +67,5 @@ RazorLight is actively evolving. APIs may change, and some features
 (like Lua integration and tooling) are still under development.
 Not production-ready yet --- but moving fast.
 
-📂 Project Structure (WIP)
-RazorLight/
-├── core/          # Engine core
-├── ecs/           # ECS integration (yggsECS)
-├── render/        # Karl2D rendering layer
-├── physics/       # Box2D bindings & systems
-├── scripting/     # Lua integration (planned)
-├── assets/        # Asset loading & management
-└── examples/      # Sample games & demos
 
-
-🛠 Building
-Requirements
-·	Odin compiler (latest)
-·	OS: Linux / Windows (macOS TBD)
-odin build .
-
-More detailed build instructions will be added as the engine stabilizes.
-
-🧠 Inspiration
-·	Data-oriented design
-·	Handmade-style development
-·	Bevy (architecture, not implementation)
-·	Love2D & Defold (simplicity)
-·	Custom in-house engines
-
-📜 License
 MIT License
-
-Free to use, modify, and ship games with.
-
-🤝 Contributing
-Contributions, ideas, and experiments are welcome.
-If you enjoy: - ECS architecture - Odin - Engine internals - Runtime
-
-systems
-You'll probably feel at home here.
-
-🚀 Name Origin
-RazorLight represents sharp, minimal design --- cutting away
-
-unnecessary abstractions while staying lightweight and fast.

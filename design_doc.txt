@@ -1,0 +1,268 @@
+RazorLight Game Engine
+Comprehensive Design Document
+
+Core Philosophy
+"The most modular, efficient, and developer-friendly engine for 2D, 3D, and cross-platform app development"
+RazorLight aims to combine the best aspects of modern engines: Godot's 2D efficiency, Unity's flexibility, Unreal's power, and Bevy's ECS architecture—while adding revolutionary features for iteration speed and developer experience.
+
+🏗️ Architecture
+Core Engine Stack
+Engine Core: Odin (high-performance, modern systems programming)
+Scripting Languages: Odin and Lua
+Physics Engine: Box2D
+
+ECS Architecture
+Pure ECS: Component-based entity system at the core
+
+
+🎮 Editor Features
+Runtime & Iteration
+Feature
+Description
+🧬 Runtime Scene Clone
+Deep copy of ECS world before play mode for instant reversion
+🔥 Optional Live Inspector Sync
+Real-time component value display during play
+♻️ Hot Reload Scripts
+Recompile and reload Odin/Lua scripts without engine restart
+💾 Smart Exit Behavior
+Choose "Revert", "Keep Changes", or "Apply Selectively" when exiting play
+🔍 Live Scene View
+Real-time viewport rendering during play mode
+🧠 Deterministic Restoration
+Exact ECS snapshot restoration when exiting play mode
+⚡ Incremental Compilation
+Fine-grained, line-by-line compilation as you type
+🔄 Live Code Reload
+See code changes reflected instantly without manual recompilation
+
+Editor Modularity
+Optional Editor: Run engine with or without editor UI
+Modular Panels: Load only what you need (level editor, animation editor, UI editor)
+Lightweight Mode: Disable folder system, only show active scene hierarchy
+Custom Layouts: Save and load workspace configurations
+Excellent Window Docking: Flexible, modern docking system with seamless resizing
+Visual Features
+Clean Modern UI: Choice of sprite-based (Unity Canvas-style) or web-based UI
+Dark/Light Themes: Built-in theme system with customization
+Asset Previews: Thumbnails and quick preview for all asset types
+Graph Editors: Visual programming, state machines, animation graphs
+Built-in Sprite Editor: Cut, modify, and manipulate sprites directly in editor
+
+🚀 Compilation & Build System
+Revolutionary Compilation
+Instant Incremental Builds: Only recompile changed files and their direct dependents
+As-You-Type Compilation: Syntax checking and partial compilation while coding
+Dependency Graph Analysis: Fine-grained tracking of what needs recompilation
+Assembly Streaming: Load compiled code modules asynchronously
+Build Profiles: Platform-specific configurations (Debug, Release, Shipping)
+Code Obfuscation: Built-in code protection for release builds
+Build Targets
+Windows, macOS, Linux
+Android, iOS
+Web (WASM)
+Consoles (with appropriate SDKs)
+AR/VR/MR/XR platforms
+
+🎨 2D Features (Godot-Level Excellence)
+Rendering
+2D Lighting System: Dynamic lights, shadows, normal maps
+2D Line Renderer: Vector graphics and custom shape drawing
+2D PolyShape: Create custom vector shapes with editing tools
+Texture Atlas: Automatic sprite batching
+GPU Instancing: Efficient rendering of thousands of sprites
+Dynamic & Static Batching: Automatic optimization
+
+
+
+Navigation & AI
+2D NavMesh: Pathfinding system equivalent to 3D navigation
+Dynamic Obstacle Avoidance: Real-time navigation updates
+Pathfinding Algorithms: A*, JPS, and custom implementations
+
+🌍
+🛠️ Developer Experience
+Code Editor
+Built-in Editor: Full-featured IDE (better than Godot's)
+External Editor Support: VSCode, Vim, any LSP-compatible editor
+Syntax Highlighting: All supported languages
+Code Completion: Intelligent autocomplete
+Debugging Integration: Breakpoints, watches, call stacks
+Refactoring Tools: Rename, extract, inline
+Debugging & Profiling
+Visual Debugger: Inspector, watch windows, call stacks
+Frame Debugger: Step through rendering frame-by-frame
+Performance Profiler: CPU, GPU, memory profiling
+Physics Debugger: Visualize colliders, forces, contacts
+Network Debugger: Monitor network traffic and state
+Memory Profiler: Track allocations and leaks
+Inspector System
+Live Property Editing: Modify script variables via UI
+Custom Inspectors: Define custom editor layouts
+Property Drawers: Custom controls for specific types
+Undo/Redo: Full history for all editor actions
+Multi-Object Editing: Edit multiple entities simultaneously
+Version Control
+Git Integration: Built-in Git support
+Scene Merging: Intelligent scene conflict resolution
+Lock System: Prevent conflicting edits
+Version History: Visual timeline of changes
+
+📦 Plugin & Extension System
+Plugin Architecture
+
+Modular Installation: Choose plugin features (e.g., collision without joints)
+Plugin Marketplace: Discover and install community plugins
+Hot-Loadable Plugins: Load/unload without restart
+Plugin Sandboxing: Isolated plugin execution for safety
+
+
+🎯 UI System
+Flexibility
+Sprite-Based UI: Unity Canvas-style immediate mode
+Web-Based UI: HTML/CSS for complex interfaces
+Odin UI: Native UI toolkit in Odin
+Reactive UI: Data binding and reactive updates
+Accessibility: Screen reader support, keyboard navigation
+Components
+Standard Widgets: Buttons, sliders, dropdowns, text fields
+Layout System: Flex, grid, anchors, constraints
+Themes: Customizable visual styles
+Animations: UI transitions and effects
+Rich Text: Markdown, HTML-like formatting
+
+🌐 Cross-Platform App Development
+App Mode
+Flutter-like Workflow: Build native apps using engine
+Minimal Engine: Remove physics, 3D, audio systems
+Native Code Calling: Easy FFI to platform APIs
+UI-Focused: Optimized for interface-heavy applications
+Small Binaries: Strip unused features for minimal size
+Platform Features
+Native Dialogs: File pickers, alerts, permissions
+Platform Services: IAP, notifications, analytics
+Deep Linking: Handle URLs and app schemes
+Background Tasks: Run code when app is backgrounded
+
+📋 Metadata & Asset Management
+Asset Pipeline
+Automatic Import: Detect and import new assets
+Custom Importers: Define import settings per asset type
+Asset Metadata: Store import settings, dependencies
+Metadata Viewer: Human-readable metadata browser
+Asset Validation: Check assets for errors/warnings
+Tilemap System
+Grid-Based Editing: Tile placement, brushes, auto-tiling
+Multiple Layers: Background, foreground, collision layers
+Tile Animations: Animated tile support
+Rule Tiles: Context-aware tile placement
+Isometric Support: Isometric and hexagonal grids
+
+🔧 Command-Line Interface
+CLI Commands
+# Run specific editors
+rzl run level_editor
+rzl run ui_editor
+rzl run animation_editor
+
+# Build commands
+rzl build
+rzl build --release
+rzl build --platform android --profile "Production"
+
+# Debugging and profiling
+rzl run profiler
+rzl run frame_debugger
+rzl debug --attach
+
+# Code tracing
+rzl trace odin function add_score
+rzl trace go function add_score
+rzl trace go class Player
+
+# Project creation
+rzl create --template 3DCore
+rzl create --template 2DPlatformer
+rzl create --template AR
+rzl create --template App
+
+# Build profiles
+rzl create build-profile android "Android Release"
+rzl list build-profiles
+
+# Asset management
+rzl import assets/
+rzl pack assets --output game.bundle
+rzl validate assets
+
+# Plugin management
+rzl plugin install physics-2d
+rzl plugin list
+rzl plugin update
+
+# Testing
+rzl test
+rzl test --unit
+rzl test --integration
+
+# Documentation
+rzl docs generate
+rzl docs serve
+
+GUI Companion
+Command Palette: Quick access to CLI commands
+Visual Build Profiles: Configure without terminal
+One-Click Actions: Common tasks as buttons
+
+🚦 Advanced Features
+Live Coding
+Code-to-Visual Sync: Editor changes generate readable code
+Visual-to-Code Sync: Code changes update editor state
+Bidirectional Editing: Edit in code or editor interchangeably
+Spatial Structures
+BVH (Bounding Volume Hierarchy): For collision detection
+Quadtree/Octree: Spatial partitioning
+R-Tree: Dynamic spatial indexing
+Async Programming
+Coroutines: Async/await style programming
+Built-in Timer System: Schedule delayed actions
+Parallel Tasks: Easy parallel execution
+Job Scheduling: Fine-grained control over threading
+AR/VR/MR/XR
+OpenXR Support: Industry-standard VR API
+Hand Tracking: Native hand tracking support
+Spatial Anchors: Persistent world anchors
+Passthrough: Mixed reality passthrough
+Multi-Platform: Quest, PSVR2, Valve Index, HoloLens
+Analytics & Telemetry
+Built-in Analytics: Track player behavior
+Crash Reporting: Automatic crash dumps
+Performance Metrics: Runtime performance tracking
+A/B Testing: Built-in experiment framework
+Localization
+Multi-Language Support: Easy text localization
+Right-to-Left: Support for RTL languages
+Font Fallback: Automatic font switching for characters
+Plural Forms: Handle complex plural rules
+Date/Time Formatting: Locale-aware formatting
+Accessibility
+Screen Reader Support: TTS integration
+Colorblind Modes: Built-in filters
+Remappable Controls: Full input remapping
+Subtitles: Subtitle system with styling
+Text Scaling: UI text size adjustment
+
+
+🏆 Competitive Advantages
+What Makes RazorLight Unique
+Fastest Iteration: Line-by-line compilation + hot reload beats all competition
+True 2D/3D Hybrid: Godot's 2D quality + Unity's 3D power
+Language Flexibility: Choose Odin or Lua
+App Development: One tool for games AND apps
+Modular Everything: Install only what you need
+Perfect Dependency Management: No more Gradle hell
+Data-Oriented by Default: Performance without complexity
+WebGPU Future-Proof: Modern graphics API
+Developer Ergonomics: Every feature designed for joy
+
+

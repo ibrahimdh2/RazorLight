@@ -30,6 +30,8 @@ main :: proc() {
 		commands.cmd_run(command_args)
 	case "build":
 		commands.cmd_build(command_args)
+	case "editor":
+		commands.cmd_editor(command_args)
 	case "help", "-h", "--help":
 		print_help()
 	case "version", "-v", "--version":
@@ -48,15 +50,19 @@ print_help :: proc() {
 	fmt.println("")
 	fmt.println("Commands:")
 	fmt.println("  new <name>      Create a new RazorLight project")
-	fmt.println("  run [target]    Build and run the project (default: game)")
+	fmt.println("  run [target]    Build and run the project (default: debug)")
+	fmt.println("  run --hot       Build and run with hot-reload enabled")
 	fmt.println("  build [target]  Build the project without running")
+	fmt.println("  editor          Build and launch the Animation Editor")
 	fmt.println("  help            Show this help message")
 	fmt.println("  version         Show version information")
 	fmt.println("")
 	fmt.println("Examples:")
 	fmt.println("  rzl new my_game     Create a new project called 'my_game'")
 	fmt.println("  rzl run             Build and run the game")
+	fmt.println("  rzl run --hot       Build and run with code hot-reload")
 	fmt.println("  rzl build release   Build release version")
+	fmt.println("  rzl editor          Launch the animation editor")
 }
 
 print_version :: proc() {

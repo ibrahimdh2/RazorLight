@@ -1,0 +1,12 @@
+%!(MISSING CLOSE BRACE)	"name": "test",
+	"version": "0.1.0",
+	"engine_version": "0.1.0",
+	"entry_point": "src/main.odin",
+	"build": %!(MISSING ARGUMENT)%!(MISSING CLOSE BRACE)		"debug": %!(MISSING ARGUMENT)%!(MISSING CLOSE BRACE)			"optimization": "none",
+			"debug_symbols": true
+		},
+		"release": %!(MISSING ARGUMENT)%!(MISSING CLOSE BRACE)			"optimization": "speed",
+			"debug_symbols": false
+		}
+	}
+}

@@ -1,0 +1,17 @@
+{
+	"name": "flappy",
+	"version": "0.1.0",
+	"engine_version": "0.1.0",
+	"hot_reload": true,
+	"engine_path": "../../RazorLight",
+	"build": {
+		"debug": {
+			"optimization": "none",
+			"debug_symbols": true
+		},
+		"release": {
+			"optimization": "speed",
+			"debug_symbols": false
+		}
+	}
+}

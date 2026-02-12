@@ -30,10 +30,10 @@ sprite_render_system :: proc(world_ptr: rawptr) {
 			t := &transforms[i]
 			anim := &anims[i]
 
-			// Determine which texture to use
+			// Determine which texture to use (animation set texture takes priority)
 			tex: k2.Texture
-			if anim.current_animation != nil && anim.current_animation.texture.width > 0 {
-				tex = anim.current_animation.texture
+			if anim_tex, ok := core.animation_get_texture(world.animation_registry, anim); ok && anim_tex.width > 0 {
+				tex = anim_tex
 			} else {
 				tex = sprite.texture
 			}
@@ -44,7 +44,7 @@ sprite_render_system :: proc(world_ptr: rawptr) {
 
 			// Get source rect from animation
 			src_rect: k2.Rect
-			if frame_rect, ok := core.animation_get_current_frame(anim); ok {
+			if frame_rect, ok := core.animation_get_current_frame(world.animation_registry, anim); ok {
 				src_rect = frame_rect
 			} else {
 				src_rect = k2.Rect{0, 0, f32(tex.width), f32(tex.height)}

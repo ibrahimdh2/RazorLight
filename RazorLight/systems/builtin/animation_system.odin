@@ -16,7 +16,7 @@ animation_update_system :: proc(world_ptr: rawptr, dt: f32) {
 		anims := ecs.get_table(world.ecs, arch, core.Animation_Component)
 
 		for i in 0..<len(anims) {
-			core.animation_update(&anims[i], dt)
+			core.animation_update(world.animation_registry, &anims[i], dt)
 		}
 	}
 }

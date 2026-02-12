@@ -54,7 +54,7 @@ System_Entry :: struct {
 
 System_Scheduler :: struct {
 	systems:           [dynamic]System_Entry,
-	sorted:            [System_Phase][dynamic]^System_Entry,
+	sorted_indices:    [System_Phase][dynamic]int,  // Indices into systems array (cache-friendly)
 	needs_sort:        bool,
 
 	// Profiling
@@ -77,7 +77,7 @@ scheduler_destroy :: proc(sched: ^System_Scheduler) {
 	}
 
 	delete(sched.systems)
-	for &arr in sched.sorted {
+	for &arr in sched.sorted_indices {
 		delete(arr)
 	}
 	free(sched)
@@ -154,7 +154,8 @@ scheduler_run_phase :: proc(sched: ^System_Scheduler, world: rawptr, dt: f32, ph
 		scheduler_sort(sched)
 	}
 
-	for entry in sched.sorted[phase] {
+	for idx in sched.sorted_indices[phase] {
+		entry := &sched.systems[idx]
 		if !entry.enabled || entry.update_proc == nil {
 			continue
 		}
@@ -186,7 +187,8 @@ scheduler_run_render :: proc(sched: ^System_Scheduler, world: rawptr) {
 		scheduler_sort(sched)
 	}
 
-	for entry in sched.sorted[.Render] {
+	for idx in sched.sorted_indices[.Render] {
+		entry := &sched.systems[idx]
 		if !entry.enabled || entry.render_proc == nil {
 			continue
 		}
@@ -230,20 +232,27 @@ scheduler_run_fixed_update :: proc(sched: ^System_Scheduler, world: rawptr, fixe
 @(private)
 scheduler_sort :: proc(sched: ^System_Scheduler) {
 	// Clear sorted arrays
-	for &arr in sched.sorted {
+	for &arr in sched.sorted_indices {
 		clear(&arr)
 	}
 
-	// Group by phase
-	for &entry in sched.systems {
-		append(&sched.sorted[entry.phase], &entry)
+	// Group by phase (store indices instead of pointers)
+	for entry, i in sched.systems {
+		append(&sched.sorted_indices[entry.phase], i)
 	}
 
-	// Sort each phase by priority
-	for &arr in sched.sorted {
-		slice.sort_by(arr[:], proc(a, b: ^System_Entry) -> bool {
-			return a.priority < b.priority
-		})
+	// Sort each phase by priority using insertion sort (simple and works with index-based access)
+	for &arr in sched.sorted_indices {
+		// Simple insertion sort
+		for i := 1; i < len(arr); i += 1 {
+			key := arr[i]
+			j := i - 1
+			for j >= 0 && sched.systems[arr[j]].priority > sched.systems[key].priority {
+				arr[j + 1] = arr[j]
+				j -= 1
+			}
+			arr[j + 1] = key
+		}
 	}
 
 	sched.needs_sort = false

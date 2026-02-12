@@ -186,16 +186,30 @@ log_errorf  :: debug.log_errorf
 // Re-export: Animation Functions
 // ============================================================================
 
-animation_play             :: core.animation_play
-animation_play_anim        :: core.animation_play_anim
-animation_stop             :: core.animation_stop
-animation_pause            :: core.animation_pause
-animation_resume           :: core.animation_resume
-animation_reset            :: core.animation_reset
-animation_set_speed        :: core.animation_set_speed
-animation_set_frame        :: core.animation_set_frame
-animation_is_finished      :: core.animation_is_finished
-animation_get_current_frame :: core.animation_get_current_frame
+Animation_Set_Handle            :: core.Animation_Set_Handle
+INVALID_ANIMATION_SET           :: core.INVALID_ANIMATION_SET
+
+animation_play                  :: core.animation_play
+animation_start                 :: core.animation_start
+animation_stop                  :: core.animation_stop
+animation_pause                 :: core.animation_pause
+animation_resume                :: core.animation_resume
+animation_reset                 :: core.animation_reset
+animation_set_speed             :: core.animation_set_speed
+animation_set_frame             :: core.animation_set_frame
+animation_is_finished           :: core.animation_is_finished
+animation_get_current_frame     :: core.animation_get_current_frame
+animation_get_texture           :: core.animation_get_texture
+
+// Animation Registry (centralized storage for animation sets)
+Animation_Registry              :: core.Animation_Registry
+animation_registry_create       :: core.animation_registry_create
+animation_registry_destroy      :: core.animation_registry_destroy
+animation_registry_register     :: core.animation_registry_register
+animation_registry_unregister   :: core.animation_registry_unregister
+animation_registry_get          :: core.animation_registry_get
+animation_registry_get_anim     :: core.animation_registry_get_anim
+animation_registry_is_valid     :: core.animation_registry_is_valid
 
 // ============================================================================
 // Re-export: Animation I/O
@@ -585,7 +599,11 @@ set_velocity   :: core.set_velocity
 get_velocity   :: core.get_velocity
 apply_force    :: core.apply_force
 apply_impulse  :: core.apply_impulse
-set_position   :: core.set_position
+set_position     :: core.set_position
+get_position     :: core.get_position
+
+// Physics initialization (call after adding all required components)
+try_init_physics :: core.try_init_physics
 
 // ============================================================================
 // Polymorphic Component API (defined directly — cannot be aliased across packages)

@@ -31,20 +31,25 @@ Animation_Set :: struct {
 	animations: map[string]Animation,      // "idle", "run", "jump", etc.
 }
 
+Animation_Set_Handle :: distinct u32
+INVALID_ANIMATION_SET :: Animation_Set_Handle(0)
+
 Animation_Component :: struct {
-	current_animation: ^Animation,
-	animation_set:     ^Animation_Set,
+	set_handle:        Animation_Set_Handle,  // Handle to animation set in registry
+	animation_name:    string,                // Name of current animation (e.g., "idle", "run")
 	current_frame:     int,
 	elapsed:           f32,
 	playing:           bool,
-	speed:             f32,         // 1.0 = normal
-	direction:         i8,          // +1 or -1 (for ping-pong)
+	speed:             f32,                   // 1.0 = normal
+	direction:         i8,                    // +1 or -1 (for ping-pong)
 	finished:          bool,
 }
 
 DEFAULT_ANIMATION_COMPONENT :: Animation_Component {
-	speed     = 1.0,
-	direction = 1,
-	playing   = false,
-	finished  = false,
+	set_handle     = INVALID_ANIMATION_SET,
+	animation_name = "",
+	speed          = 1.0,
+	direction      = 1,
+	playing        = false,
+	finished       = false,
 }

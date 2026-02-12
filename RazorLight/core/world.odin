@@ -9,15 +9,16 @@ import physics "../physics"
 
 // World contains all game state: ECS entities/components and physics simulation
 World :: struct {
-	ecs:              ^ecs.World,
-	physics:          ^physics.Physics_World,
+	ecs:               ^ecs.World,
+	physics:           ^physics.Physics_World,
+	animation_registry: ^Animation_Registry,  // Centralized animation storage
 
 	// Coordinate system settings
-	y_flip:           bool,           // Box2D Y-up vs Screen Y-down
-	pixels_per_meter: f32,
+	y_flip:            bool,           // Box2D Y-up vs Screen Y-down
+	pixels_per_meter:  f32,
 
 	// State
-	paused:           bool,
+	paused:            bool,
 }
 
 world_create :: proc(config: Engine_Config) -> ^World {
@@ -36,6 +37,9 @@ world_create :: proc(config: Engine_Config) -> ^World {
 	world.y_flip = true
 	world.pixels_per_meter = config.pixels_per_meter
 	world.paused = false
+	
+	// Create animation registry
+	world.animation_registry = animation_registry_create()
 
 	// Register built-in component cleanup callbacks
 	world_register_physics_cleanup(world)
@@ -49,6 +53,7 @@ world_destroy :: proc(world: ^World) {
 	}
 
 	physics.physics_world_destroy(world.physics)
+	animation_registry_destroy(world.animation_registry)
 	ecs.delete_world(world.ecs)
 	free(world)
 }
@@ -235,6 +240,13 @@ set_position :: proc(world: ^World, entity: ecs.EntityID, position: Vec2) {
 	body_id, ok := _get_entity_body_id(world, entity)
 	if !ok { return }
 	physics.physics_set_position(body_id, position)
+}
+
+// Get position of an entity's physics body
+get_position :: proc(world: ^World, entity: ecs.EntityID) -> Vec2 {
+	body_id, ok := _get_entity_body_id(world, entity)
+	if !ok { return {} }
+	return physics.physics_get_position(body_id)
 }
 
 // Internal: get body_id from entity (Rigidbody takes priority, then Collider's implicit body)

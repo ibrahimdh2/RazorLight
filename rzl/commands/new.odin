@@ -365,8 +365,8 @@ Thumbs.db
 
 @(private)
 write_file :: proc(path: string, content: string) {
-	ok := os.write_entire_file(path, transmute([]u8)content)
-	if !ok {
+	err := os.write_entire_file(path, transmute([]u8)content)
+	if err != nil {
 		fmt.printf("Error writing file '%s'\n", path)
 		os.exit(1)
 	}

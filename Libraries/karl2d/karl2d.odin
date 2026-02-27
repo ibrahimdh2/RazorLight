@@ -1241,7 +1241,7 @@ load_font_from_file :: proc(filename: string) -> Font {
 		return {}
 	}
 
-	if data, data_ok := os.read_entire_file(filename, frame_allocator); data_ok {
+	if data, data_err := os.read_entire_file(filename, frame_allocator); data_err == nil {
 		return load_font_from_bytes(data)
 	}
 
@@ -1299,9 +1299,9 @@ load_shader_from_file :: proc(
 	fragment_filename: string,
 	layout_formats: []Pixel_Format = {}
 ) -> Shader {
-	vertex_source, vertex_source_ok := os.read_entire_file(vertex_filename, frame_allocator)
+	vertex_source, vertex_source_err := os.read_entire_file(vertex_filename, frame_allocator)
 
-	if !vertex_source_ok {
+	if vertex_source_err != nil {
 		log.errorf("Failed loading shader %s", vertex_filename)
 		return {}
 	}
@@ -1311,10 +1311,10 @@ load_shader_from_file :: proc(
 	if fragment_filename == vertex_filename {
 		fragment_source = vertex_source
 	} else {
-		fragment_source_ok: bool
-		fragment_source, fragment_source_ok = os.read_entire_file(fragment_filename, frame_allocator)
+		fragment_source_err: os.Error
+		fragment_source, fragment_source_err = os.read_entire_file(fragment_filename, frame_allocator)
 
-		if !fragment_source_ok {
+		if fragment_source_err != nil {
 			log.errorf("Failed loading shader %s", fragment_filename)
 			return {}
 		}
@@ -2437,5 +2437,4 @@ f32_color_from_color :: proc(color: Color) -> Color_F32 {
 }
 
 FILESYSTEM_SUPPORTED :: ODIN_OS != .JS && ODIN_OS != .Freestanding
-
 

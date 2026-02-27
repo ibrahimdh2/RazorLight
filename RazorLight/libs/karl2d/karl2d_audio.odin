@@ -101,9 +101,9 @@ play_sound :: proc(snd: Sound) {
 }
 
 load_sound_from_file :: proc(filename: string) -> Sound {
-	data, data_ok := os.read_entire_file(filename)
+	data, data_err := os.read_entire_file(filename, s.allocator)
 
-	if !data_ok {
+	if data_err != nil {
 		log.errorf("Failed loading sound %v", filename)
 		return {}
 	}

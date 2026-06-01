@@ -88,7 +88,7 @@ find_editor_path :: proc() -> string {
 	}
 
 	// Try reading engine_path from project.json
-	if data, ok := os.read_entire_file("project.json"); ok {
+	if data, err := os.read_entire_file("project.json", context.allocator); err == nil {
 		defer delete(data)
 		// Simple string search for engine_path value
 		content := string(data)

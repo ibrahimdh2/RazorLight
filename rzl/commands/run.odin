@@ -143,7 +143,7 @@ build_host :: proc() -> bool {
 
 @(private)
 get_dir_mod_time :: proc(dir: string) -> time.Time {
-	info, err := os.stat(dir)
+	info, err := os.stat(dir, context.temp_allocator)
 	if err != os.ERROR_NONE {
 		return {}
 	}
@@ -153,7 +153,10 @@ get_dir_mod_time :: proc(dir: string) -> time.Time {
 @(private)
 get_executable_name :: proc() -> string {
 	// Get the current directory name as the executable name
-	cwd := os.get_current_directory()
+	cwd, cwd_err := os.get_working_directory(context.allocator)
+	if cwd_err != nil {
+		return ""
+	}
 
 	// Extract directory name from path
 	last_sep := -1

@@ -9,15 +9,15 @@ TARGET="${1:-debug}"
 case "$TARGET" in
     debug)
         echo "Building project (debug)..."
-        odin run . -o:none -debug
+        odin build . -o:none -debug -out:RazorLight.bin
         ;;
     release)
         echo "Building project (release)..."
-        odin run . -o:speed
+        odin build . -o:speed -out:RazorLight.bin
         ;;
     size)
         echo "Building project (size optimized)..."
-        odin run . -o:size
+        odin build . -o:size -out:RazorLight.bin
         ;;
     *)
         echo "Unknown build target: $TARGET"
@@ -26,4 +26,4 @@ case "$TARGET" in
         ;;
 esac
 
-echo "Build completed successfully!"
+echo "Build completed successfully: ./RazorLight.bin"
